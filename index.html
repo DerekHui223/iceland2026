@@ -35,11 +35,6 @@
             border-radius: 12px;
             margin-bottom: 30px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        header:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         header h1 {
             margin: 0 0 10px 0;
@@ -57,7 +52,7 @@
             margin-top: 40px;
         }
 
-        /* Day Card with Version 1 Hover Logic */
+        /* Day Card */
         .day-card {
             background: var(--card-bg);
             border-radius: 12px;
@@ -66,11 +61,12 @@
             margin-bottom: 25px;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            position: relative;
         }
         .day-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-5px);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
         }
 
@@ -124,6 +120,13 @@
             color: var(--primary);
             font-size: 1.4rem;
         }
+        .click-hint {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--secondary);
+            font-weight: bold;
+        }
         .details-list {
             margin: 10px 0;
             padding-left: 20px;
@@ -132,7 +135,6 @@
             margin-bottom: 6px;
         }
         
-        /* Version 1 Highlight Tags Area */
         .tags-container {
             margin-top: 15px;
             padding-top: 12px;
@@ -152,11 +154,6 @@
             border-radius: 16px;
             font-size: 0.85rem;
             font-weight: 500;
-            transition: background-color 0.2s, transform 0.2s;
-        }
-        .tag-item:hover {
-            background-color: #E2E8F0;
-            transform: translateY(-1px);
         }
 
         .btn-group {
@@ -173,13 +170,88 @@
             border-radius: 6px;
             text-decoration: none;
             font-size: 0.9rem;
-            transition: background 0.2s, transform 0.2s;
+            transition: background 0.2s;
+            z-index: 3;
         }
         .btn-link:hover {
             background: #117a65;
-            transform: translateY(-2px);
         }
 
+        /* Modal Popup Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal-card {
+            background: white;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            border-radius: 14px;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: modalFadeIn 0.3s ease;
+            position: relative;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            border: none;
+            color: white;
+            padding: 0;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+        .modal-body {
+            padding: 25px;
+        }
+        .modal-section {
+            margin-bottom: 20px;
+        }
+        .modal-section h4 {
+            color: var(--secondary);
+            border-left: 4px solid var(--secondary);
+            padding-left: 10px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .modal-section p, .modal-section ul {
+            color: #444;
+            margin: 0;
+            padding-left: 20px;
+        }
+        .modal-section li {
+            margin-bottom: 6px;
+        }
+
+        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -198,9 +270,6 @@
             background-color: var(--primary);
             color: white;
             font-weight: 600;
-        }
-        tr {
-            transition: background-color 0.2s;
         }
         tr:hover {
             background-color: #f1f5f9;
@@ -227,13 +296,13 @@
     <div class="container">
         <header>
             <h1>❄️ 冰島極光與北歐雙城11日夢幻之旅</h1>
-            <p>2026年11月20日 - 11月30日 | 航班、行程、預訂連結與特色標籤全攻略</p>
+            <p>2026年11月20日 - 11月30日 | 點擊任何日子查看詳細行程與穿搭指南</p>
         </header>
 
-        <h2>📅 每日詳細行程與亮點標籤</h2>
+        <h2>📅 每日行程總覽（點擊卡片看詳細內容與穿搭）</h2>
 
         <!-- Day 1 -->
-        <div class="day-card">
+        <div class="day-card" onclick="openModal('day1')">
             <div class="day-img-container">
                 <span class="day-badge">20/11 - 21/11</span>
                 <img class="day-img" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" alt="航班出發">
@@ -242,6 +311,7 @@
                 <div>
                     <h3>香港 ➔ 倫敦 ➔ 雷克雅維克 (KEF)</h3>
                     <p><strong>航班資訊：</strong> 22:45 由香港搭乘 British Airways 32 經倫敦轉機，於 21/11 上午 10:50 抵達凱夫拉維克國際機場。</p>
+                    <span class="click-hint">🔍 點擊查看詳細行程、注意事項與衣著建議</span>
                 </div>
                 <div class="tags-container">
                     <span class="tag-item">✈️ 長途飛行</span>
@@ -252,7 +322,7 @@
         </div>
 
         <!-- Day 2 -->
-        <div class="day-card">
+        <div class="day-card" onclick="openModal('day2')">
             <div class="day-img-container">
                 <span class="day-badge">21/11</span>
                 <img class="day-img" src="https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&w=600&q=80" alt="藍湖溫泉與追光">
@@ -260,11 +330,9 @@
             <div class="day-content">
                 <div>
                     <h3>藍湖溫泉 ➔ 市區 Check-in ➔ 極光巴士團</h3>
-                    <ul class="details-list">
-                        <li>♨️ <strong>【藍湖溫泉 Blue Lagoon】</strong> 10:00-13:30 浸溫泉/敷火山泥/食午餐 ➔ 14:00 搭巴士直達 KEF 機場/市區。</li>
-                        <li>🌌 <strong>【極光巴士團】</strong> 晚上參加追光團（連熱可可），捕捉極光美景。</li>
-                    </ul>
-                    <div class="btn-group">
+                    <p>浸泡療癒藍湖溫泉、入住市區酒店，晚上參加極光團捕捉極光。</p>
+                    <span class="click-hint">🔍 點擊查看詳細行程、注意事項與衣著建議</span>
+                    <div class="btn-group" onclick="event.stopPropagation()">
                         <a class="btn-link" href="https://www.bluelagoon.com/day-visit/the-blue-lagoon" target="_blank">預訂藍湖門票</a>
                         <a class="btn-link" style="background:#2980b9;" href="https://www.getyourguide.com/reykjavik-l30/iceland-northern-lights-bus-tour-from-reykjavik-w-hot-cocoa-t67019/" target="_blank">預訂極光團</a>
                     </div>
@@ -273,13 +341,12 @@
                     <span class="tag-item">♨️ 藍湖溫泉</span>
                     <span class="tag-item">🌋 火山泥面膜</span>
                     <span class="tag-item">🌌 極光巴士團</span>
-                    <span class="tag-item">☕ 熱可可</span>
                 </div>
             </div>
         </div>
 
         <!-- Day 3 -->
-        <div class="day-card">
+        <div class="day-card" onclick="openModal('day3')">
             <div class="day-img-container">
                 <span class="day-badge">22/11</span>
                 <img class="day-img" src="https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=600&q=80" alt="金圈一日遊">
@@ -287,21 +354,22 @@
             <div class="day-content">
                 <div>
                     <h3>黃金圈經典一日遊 (Golden Circle)</h3>
-                    <p>【金圈一日遊】Þingvellir 國家公園、Geysir 間歇泉、Gullfoss 黃金瀑布 + 溫泉體驗。</p>
-                    <div class="btn-group">
+                    <p>Þingvellir 國家公園、Geysir 間歇泉、Gullfoss 黃金瀑布。</p>
+                    <span class="click-hint">🔍 點擊查看詳細行程、注意事項與衣著建議</span>
+                    <div class="btn-group" onclick="event.stopPropagation()">
                         <a class="btn-link" href="https://www.getyourguide.com/zh-tw/reykjavik-l30/golden-circle-express-t72105" target="_blank">預訂金圈一日遊</a>
                     </div>
                 </div>
                 <div class="tags-container">
-                    <span class="tag-item">🏛️ Þingvellir 國家公園</span>
-                    <span class="tag-item">💥 Geysir 間歇泉</span>
-                    <span class="tag-item">🌊 Gullfoss 瀑布</span>
+                    <span class="tag-item">🏛️ 國家公園</span>
+                    <span class="tag-item">💥 間歇泉</span>
+                    <span class="tag-item">🌊 黃金瀑布</span>
                 </div>
             </div>
         </div>
 
         <!-- Day 4-5 -->
-        <div class="day-card">
+        <div class="day-card" onclick="openModal('day4_5')">
             <div class="day-img-container">
                 <span class="day-badge">23/11 - 24/11</span>
                 <img class="day-img" src="https://images.unsplash.com/photo-1517824806704-9040b037703b?auto=format&fit=crop&w=600&q=80" alt="冰河湖與藍冰洞">
@@ -309,11 +377,9 @@
             <div class="day-content">
                 <div>
                     <h3>南岸瀑布 + 冰河湖 + 藍冰洞兩日深度遊</h3>
-                    <ul class="details-list">
-                        <li>🌊 <strong>南岸景點：</strong> Seljalandsfoss、Skógafoss 瀑布、Reynisfjara 黑沙灘。</li>
-                        <li>💎 <strong>冰川探索：</strong> 傑古沙龍冰河湖 (Jökulsárlón)、鑽石海灘 + 冬季限定天然藍冰洞探險。</li>
-                    </ul>
-                    <div class="btn-group">
+                    <p>水簾洞瀑布、黑沙灘、傑古沙龍冰河湖、鑽石海灘與冬季限定藍冰洞。</p>
+                    <span class="click-hint">🔍 點擊查看詳細行程、注意事項與衣著建議</span>
+                    <div class="btn-group" onclick="event.stopPropagation()">
                         <a class="btn-link" href="https://cn.guidetoiceland.is/book-holiday-trips/jokulsarlon-and-ice-caving-two-day-package-tour-along-the-south-coast" target="_blank">預訂南岸冰洞兩日套票</a>
                     </div>
                 </div>
@@ -321,13 +387,12 @@
                     <span class="tag-item">🧊 藍冰洞</span>
                     <span class="tag-item">💎 鑽石海灘</span>
                     <span class="tag-item">🖤 黑沙灘</span>
-                    <span class="tag-item">💦 水簾洞瀑布</span>
                 </div>
             </div>
         </div>
 
         <!-- Day 6 -->
-        <div class="day-card">
+        <div class="day-card" onclick="openModal('day6')">
             <div class="day-img-container">
                 <span class="day-badge">25/11</span>
                 <img class="day-img" src="https://images.unsplash.com/photo-1529963183134-61a90db47eaf?auto=format&fit=crop&w=600&q=80" alt="斯奈山半島">
@@ -335,21 +400,22 @@
             <div class="day-content">
                 <div>
                     <h3>斯奈山半島一日遊 (Snæfellsnes)</h3>
-                    <p>【斯奈山半島一日遊】Kirkjufell 教會山、Búðir 黑教堂（驗眼屋仔）、Arnarstapi 海蝕洞、Ytri Tunga 海豹沙灘。</p>
-                    <div class="btn-group">
+                    <p>Kirkjufell 教會山、Búðir 黑教堂、海蝕洞與海豹沙灘。</p>
+                    <span class="click-hint">🔍 點擊查看詳細行程、注意事項與衣著建議</span>
+                    <div class="btn-group" onclick="event.stopPropagation()">
                         <a class="btn-link" href="https://www.getyourguide.com/zh-tw/reykjavik-l30/from-reykjavik-snaefellsnes-peninsula-day-trip-in-chinese-t1098935/" target="_blank">預訂斯奈山半島中文團</a>
                     </div>
                 </div>
                 <div class="tags-container">
-                    <span class="tag-item">⛰️ Kirkjufell 教會山</span>
-                    <span class="tag-item">⛪ Búðir 黑教堂</span>
+                    <span class="tag-item">⛰️ 教會山</span>
+                    <span class="tag-item">⛪ 黑教堂</span>
                     <span class="tag-item">🦭 海豹沙灘</span>
                 </div>
             </div>
         </div>
 
         <!-- Day 7 -->
-        <div class="day-card">
+        <div class="day-card" onclick="openModal('day7')">
             <div class="day-img-container">
                 <span class="day-badge">26/11</span>
                 <img class="day-img" src="https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?auto=format&fit=crop&w=600&q=80" alt="雷克雅維克市區">
@@ -357,19 +423,19 @@
             <div class="day-content">
                 <div>
                     <h3>雷克雅維克市區漫遊 ➔ 飛往哥本哈根</h3>
-                    <p>【雷克雅維克市區漫遊】哈爾格林姆教堂、Harpa 音樂廳、食熱騰騰羊肉湯/龍蝦湯；18:05 起飛去哥本哈根 (SAS 2596)。</p>
+                    <p>哈爾格林姆教堂、Harpa 音樂廳、嘆羊肉湯，乘搭 SAS 飛往哥本哈根。</p>
+                    <span class="click-hint">🔍 點擊查看詳細行程、注意事項與衣著建議</span>
                 </div>
                 <div class="tags-container">
-                    <span class="tag-item">⛪ 哈爾格林姆教堂</span>
-                    <span class="tag-item">🎵 Harpa 音樂廳</span>
-                    <span class="tag-item">🍲 冰島羊肉湯</span>
-                    <span class="tag-item">🦞 龍蝦湯</span>
+                    <span class="tag-item">⛪ 教堂地標</span>
+                    <span class="tag-item">🍲 羊肉湯</span>
+                    <span class="tag-item">✈️ 飛往丹麥</span>
                 </div>
             </div>
         </div>
 
         <!-- Day 8 -->
-        <div class="day-card">
+        <div class="day-card" onclick="openModal('day8')">
             <div class="day-img-container">
                 <span class="day-badge">27/11</span>
                 <img class="day-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWgSYW7Udmz-MiK2y39zBtC3i1GP2cyjBac8YD-9GUNQ&s=10" alt="馬爾默">
@@ -377,19 +443,19 @@
             <div class="day-content">
                 <div>
                     <h3>🇸🇪 馬爾默 (Malmö) 一日快閃</h3>
-                    <p>【搭火車過海去瑞典：馬爾默 Malmö 快閃】馬爾默老城區 (Lilla Torg)、馬爾默城堡、旋轉大樓，體驗瑞典 Fika 咖啡。</p>
+                    <p>跨國火車遊瑞典馬爾默老城區、旋轉大樓，體驗瑞典 Fika 咖啡文化。</p>
+                    <span class="click-hint">🔍 點擊查看詳細行程、注意事項與衣著建議</span>
                 </div>
                 <div class="tags-container">
-                    <span class="tag-item">🇸🇪 跨國火車</span>
+                    <span class="tag-item">🇸🇪 瑞典快閃</span>
                     <span class="tag-item">🏙️ 旋轉大樓</span>
-                    <span class="tag-item">🏰 馬爾默老城區</span>
-                    <span class="tag-item">☕ 瑞典 Fika</span>
+                    <span class="tag-item">☕ Fika 咖啡</span>
                 </div>
             </div>
         </div>
 
         <!-- Day 9 -->
-        <div class="day-card">
+        <div class="day-card" onclick="openModal('day9')">
             <div class="day-img-container">
                 <span class="day-badge">28/11</span>
                 <img class="day-img" src="https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?auto=format&fit=crop&w=600&q=80" alt="哥本哈根">
@@ -397,18 +463,19 @@
             <div class="day-content">
                 <div>
                     <h3>🇩🇰 哥本哈根童話精華全日遊</h3>
-                    <p>【哥本哈根童話精華 + 最後購物】Nyhavn（新港彩色屋）影相、Strøget 購物街買伴手禮、Tivoli 聖誕市集。</p>
+                    <p>Nyhavn 新港彩色屋、Strøget 購物街、Tivoli 聖誕市集。</p>
+                    <span class="click-hint">🔍 點擊查看詳細行程、注意事項與衣著建議</span>
                 </div>
                 <div class="tags-container">
-                    <span class="tag-item">🇩🇰 Nyhavn 新港</span>
-                    <span class="tag-item">🛍️ Strøget 購物街</span>
-                    <span class="tag-item">🎡 Tivoli 聖誕市集</span>
+                    <span class="tag-item">🇩🇰 新港彩色屋</span>
+                    <span class="tag-item">🛍️ 購物街</span>
+                    <span class="tag-item">🎡 聖誕市集</span>
                 </div>
             </div>
         </div>
 
         <!-- Day 10-11 -->
-        <div class="day-card">
+        <div class="day-card" onclick="openModal('day10_11')">
             <div class="day-img-container">
                 <span class="day-badge">29/11 - 30/11</span>
                 <img class="day-img" src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80" alt="賦歸">
@@ -416,12 +483,13 @@
             <div class="day-content">
                 <div>
                     <h3>市區行下 / 買手信 ➔ 啟程返港</h3>
-                    <p>輕鬆漫步、買手信。15:05 起飛返港 (卡塔爾航空經多哈)，於 30/11 下午 14:50 順利抵達香港。</p>
+                    <p>最後衝刺買伴手禮，乘搭卡塔爾航空經多哈返回香港。</p>
+                    <span class="click-hint">🔍 點擊查看詳細行程、注意事項與衣著建議</span>
                 </div>
                 <div class="tags-container">
-                    <span class="tag-item">🎁 買伴手禮</span>
-                    <span class="tag-item">✈️ 卡塔爾航空</span>
-                    <span class="tag-item">🏠 順利返港</span>
+                    <span class="tag-item">🎁 買手信</span>
+                    <span class="tag-item">✈️ 回程</span>
+                    <span class="tag-item">🏠 返抵香港</span>
                 </div>
             </div>
         </div>
@@ -478,5 +546,108 @@
             <p>冰島與北歐雙城之旅 | 祝您旅途愉快、極光大爆發！ ✨</p>
         </footer>
     </div>
+
+    <!-- Modal Popup Structure -->
+    <div id="dayModal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 id="modalTitle">標題</h2>
+                <button class="close-btn" onclick="forceCloseModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const detailsData = {
+            day1: {
+                title: "20/11 - 21/11：香港 ➔ 倫敦 ➔ 雷克雅維克",
+                itinerary: `<ul><li><strong>22:45：</strong>乘搭 British Airways 32 由香港起飛，經倫敦希斯路機場轉機。</li><li><strong>21/11 上午 10:50：</strong>抵達冰島凱夫拉維克國際機場 (KEF)，提取行李並辦理上網卡/租車或接駁交通準備。</li></ul>`,
+                tips: `<ul><li>機上冷氣較涼，建議準備保暖頸枕與眼罩。</li><li>轉機時間約 2-3 小時，請留意倫敦機場的安檢與登機閘口。</li><li>冰島機場免稅店可購買零食或少量手信。</li></ul>`,
+                clothing: `<ul><li><strong>上身：</strong>舒適透氣發熱內衣 + 連帽衛衣 + 輕便羽絨外套（機上與轉機方便穿脫）。</li><li><strong>下身：</strong>休閒長褲或運動褲。</li><li><strong>鞋履：</strong>舒適行山鞋或波鞋。</li></ul>`
+            },
+            day2: {
+                title: "21/11：藍湖溫泉 ➔ 市區 Check-in ➔ 極光巴士團",
+                itinerary: `<ul><li><strong>10:00 - 13:30：</strong>前往世界聞名的「藍湖溫泉 (Blue Lagoon)」，浸泡乳藍色溫泉、敷天然火山泥面膜、享用午餐。</li><li><strong>14:00：</strong>乘坐巴士前往雷克雅維克市區酒店登記入住，稍作休息。</li><li><strong>20:00：</strong>出發參加極光巴士團（含熱可可），由專業嚮導帶領尋找極光爆發點。</li></ul>`,
+                tips: `<ul><li>藍湖門票必須提前數月預約。</li><li>溫泉水中的礦物質會令頭髮變得乾硬，<strong>落水前務必在頭髮上塗滿大量護髮素</strong>，且不要把頭髮浸入水中。</li><li>極光團戶外等候時間長達數小時，寒風刺骨。</li></ul>`,
+                clothing: `<ul><li><strong>溫泉時：</strong>泳衣、拖鞋、毛巾（通常套票包含）。</li><li><strong>晚上追光（極寒）：</strong>洋蔥式穿法！頂級防風防水羽絨長外套、加絨防風雪褲、羊毛發熱衣（Merino wool）、厚羊毛襪。</li><li><strong>配件：</strong>防風冷帽、頸巾、觸控防風手套、暖包。</li></ul>`
+            },
+            day3: {
+                title: "22/11：黃金圈經典一日遊 (Golden Circle)",
+                itinerary: `<ul><li><strong>Þingvellir 國家公園：</strong>漫步於歐亞板塊與北美板塊交界處的巨大裂谷，感受冰島歷史文化發源地。</li><li><strong>Geysir 間歇泉：</strong>觀賞 Strokkur 間歇泉每 5-10 分鐘噴發一次高達 20 米的壯觀水柱。</li><li><strong>Gullfoss 黃金瀑布：</strong>欣賞氣勢磅礡、雙層下落的冰島代表性黃金瀑布。</li></ul>`,
+                tips: `<ul><li>國家公園與瀑布周邊空曠，風大且地面可能有結冰。</li><li>間歇泉噴發水溫極高，切勿跨越圍欄。</li></ul>`,
+                clothing: `<ul><li><strong>上身：</strong>排汗底層 + 抓絨中層 + 防風防水外套（Gore-Tex）。</li><li><strong>下身：</strong>防水行山褲。</li><li><strong>鞋履：</strong>高筒防滑行山鞋。</li><li><strong>配件：</strong>防風帽、防風手套。</li></ul>`
+            },
+            day4_5: {
+                title: "23/11 - 24/11：南岸瀑布 + 冰河湖 + 藍冰洞兩日深度遊",
+                itinerary: `<ul><li><strong>南岸景點：</strong>參觀 Seljalandsfoss（水簾洞瀑布，可走到瀑布後方）、Skógafoss（斯科加瀑布）、Reynisfjara 黑沙灘（欣賞玄武岩柱與巨浪）。</li><li><strong>冰川探索：</strong>傑古沙龍冰河湖 (Jökulsárlón) 欣賞浮冰、Diamond Beach（鑽石海灘）看閃爍冰塊。</li><li><strong>藍冰洞：</strong>乘坐超級吉普車深入瓦特納冰川，探訪冬季限定、神祕透亮的天然藍冰洞。</li></ul>`,
+                tips: `<ul><li>黑沙灘的「Sneaker waves」（偷襲浪）極度危險，絕對不要背對大海或靠近浪花邊緣。</li><li>冰洞內部溫度低於冰點且地面濕滑，必須聽從嚮導指揮並穿戴專業冰爪。</li></ul>`,
+                clothing: `<ul><li><strong>上身：</strong>發熱底衣 + 厚毛衣/抓絨衣 + 頂級極地羽絨/防風防水外套。</li><li><strong>下身：</strong>防風防水厚雪褲。</li><li><strong>鞋履：</strong>硬底高筒行山鞋（便於裝上冰爪）。</li><li><strong>配件：</strong>防水防風手套、保暖毛帽、頸部保暖圍巾/面罩。</li></ul>`
+            },
+            day6: {
+                title: "25/11：斯奈山半島一日遊 (Snæfellsnes)",
+                itinerary: `<ul><li><strong>Kirkjufell 教會山：</strong>打卡冰島最著名、形狀獨特的錐形山與教會山瀑布。</li><li><strong>Búðir 黑教堂：</strong>拍攝孤立在一片漆黑原野中的孤獨浪漫黑色教堂。</li><li><strong>Arnarstapi：</strong>漫步壯麗的海蝕洞與奇岩海岸線。</li><li><strong>Ytri Tunga：</strong>在海豹沙灘尋找野生海豹的蹤影。</li></ul>`,
+                tips: `<ul><li>斯奈山半島天氣變化莫測，常遇強風與陣雨，拍照時注意站穩腳步。</li></ul>`,
+                clothing: `<ul><li><strong>穿搭：</strong>防風防水大衣、防風行山褲、防滑鞋、保暖帽子與防風手套。</li></ul>`
+            },
+            day7: {
+                title: "26/11：雷克雅維克市區漫遊 ➔ 飛往哥本哈根",
+                itinerary: `<ul><li><strong>市區漫遊：</strong>參觀外形前衛的 Hallgrímskirkja（哈爾格林姆教堂）、Harpa 音樂廳。</li><li><strong>美食體驗：</strong>品嚐當地熱騰騰的招牌羊肉湯或龍蝦湯。</li><li><strong>下午：</strong>前往機場，乘搭 SAS 2596 航班（18:05 起飛）前往丹麥哥本哈根。</li></ul>`,
+                tips: `<ul><li>預留充足時間乘搭機場巴士前往 KEF 機場，並處理退稅或行李寄艙。</li></ul>`,
+                clothing: `<ul><li><strong>穿搭：</strong>保暖羊毛大衣/輕便羽絨、舒適毛衣、休閒長褲與舒適步行靴（適合市區漫步）。</li></ul>`
+            },
+            day8: {
+                title: "27/11：🇸🇪 馬爾默 (Malmö) 一日快閃",
+                itinerary: `<ul><li><strong>跨國火車：</strong>經著名的厄勒海峽大橋前往瑞典馬爾默。</li><li><strong>景點：</strong>參觀 Lilla Torg（小廣場）、馬爾默城堡、現代感十足的旋轉大樓 (Turning Torso)。</li><li><strong>瑞典文化：</strong>體驗地道的瑞典「Fika」（肉桂卷配咖啡文化）。</li></ul>`,
+                tips: `<ul><li>跨國火車可能隨機查驗護照，隨身攜帶證件。</li></ul>`,
+                clothing: `<ul><li><strong>穿搭：</strong>北歐簡約休閒大衣、保暖針織毛衣、舒適行山鞋/休閒皮靴。</li></ul>`
+            },
+            day9: {
+                title: "28/11：🇩🇰 哥本哈根童話精華全日遊",
+                itinerary: `<ul><li><strong>Nyhavn 新港：</strong>在色彩繽紛的童話木屋旁散步拍照。</li><li><strong>Strøget 購物街：</strong>血拼北歐設計品牌、購買伴手禮。</li><li><strong>Tivoli 樂園：</strong>參觀充滿夢幻氣氛的 Tivoli 聖誕市集。</li></ul>`,
+                tips: `<ul><li>聖誕市集人潮較多，注意保管好隨身財物與手機。</li></ul>`,
+                clothing: `<ul><li><strong>穿搭：</strong>時尚保暖大衣、圍巾、手套，方便長時間在戶外街道漫步。</li></ul>`
+            },
+            day10_11: {
+                title: "29/11 - 30/11：市區行下 / 買手信 ➔ 啟程返港",
+                itinerary: `<ul><li><strong>最後衝刺：</strong>輕鬆享用北歐早餐、購買紀念品與咖啡豆。</li><li><strong>15:05：</strong>乘搭卡塔爾航空經多哈轉機返港。</li><li><strong>30/11 下午 14:50：</strong>順利抵達香港，結束完美旅程。</li></ul>`,
+                tips: `<ul><li>收拾行李時注意手信重量，液體類需寄艙。</li></ul>`,
+                clothing: `<ul><li><strong>穿搭：</strong>舒適透氣的機上休閒服（洋蔥式穿法以適應機艙內溫差）。</li></ul>`
+            }
+        };
+
+        function openModal(dayKey) {
+            const data = detailsData[dayKey];
+            if (!data) return;
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalBody').innerHTML = `
+                <div class="modal-section">
+                    <h4>🌟 詳細行程介紹</h4>
+                    ${data.itinerary}
+                </div>
+                <div class="modal-section">
+                    <h4>⚠️ 實用注意事項</h4>
+                    ${data.tips}
+                </div>
+                <div class="modal-section">
+                    <h4>🧣 建議穿著指南</h4>
+                    ${data.clothing}
+                </div>
+            `;
+            document.getElementById('dayModal').style.display = 'flex';
+        }
+
+        function forceCloseModal() {
+            document.getElementById('dayModal').style.display = 'none';
+        }
+
+        function closeModal(event) {
+            if (event.target === document.getElementById('dayModal')) {
+                forceCloseModal();
+            }
+        }
+    </script>
 </body>
 </html>
